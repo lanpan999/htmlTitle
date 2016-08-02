@@ -28,7 +28,11 @@ func fetchHtmlTitle(url string) string {
 	if titleStart == -1 || titleEnd == -1 || titleEnd < titleStart {
 		return "Failed to find title"
 	}
-	return html.UnescapeString(html_src[titleStart:titleEnd])
+	title := html.UnescapeString(html_src[titleStart:titleEnd])
+	if titleEnd - titleStart > 240 {
+		title = title[0:240]
+	}
+	return title
 }
 
 func main() {
