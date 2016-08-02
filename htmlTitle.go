@@ -12,20 +12,21 @@ import (
 func fetchHtmlTitle(url string) string {
 	resp, err := http.Get(url)
 	if err != nil {
-		return "failed to GET"
+		return "Failed to GET the url"
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
 	if err != nil {
-		return "failed to get body"
+		return "Failed to get body of response"
 	}
 
 	html_src := string(body)
+	// TODO: do parse correctly
 	titleStart := strings.Index(html_src, "<title>") + len("<title>")
 	titleEnd := strings.Index(html_src, "</title>")
 	if titleStart == -1 || titleEnd == -1 || titleEnd < titleStart {
-		return "failed to find title"
+		return "Failed to find title"
 	}
 	return html.UnescapeString(html_src[titleStart:titleEnd])
 }
